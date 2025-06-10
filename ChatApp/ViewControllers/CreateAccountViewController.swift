@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
 
 class CreateAccountViewController: UIViewController {
     
@@ -83,6 +85,47 @@ class CreateAccountViewController: UIViewController {
     }
     
     @IBAction func createAccountButtonTapped(_ sender: Any) {
+        guard let username = usernameTextField.text else {
+            presentErrorAlert(title: "Username required", message: "Please enter a username to continue sign up")
+            return
+        }
+        
+        guard username.count >= 1 && username.count <= 15 else {
+            presentErrorAlert(title: "Username Invalid", message: "Please enter a username between 1 and 15 characters long.")
+            return
+        }
+        
+        guard let passward = passwordTextField.text else {
+            presentErrorAlert(title: "Passward required", message: "Please enter a passward to continue sign up")
+            return
+        }
+        
+       guard let email = emailTextField.text else {
+            presentErrorAlert(title: "Email required", message: "Please enter a email to continue sign up")
+            return
+        }
+        Auth.auth().createUser(withEmail: email, password: passward) { result, error in
+            if let error = error {
+                print(error.localizedDescription)
+                self.presentErrorAlert(title: "Create Account Failed", message: "Something went wrong. Please try again later.")
+                return
+            }
+            guard let result = result else {
+                self.presentErrorAlert(title: "Create Account Failed", message: "Something went wrong. Please try again later.")
+                return
+            }
+           let userId = result.user.uid
+                let userData: [String: Any] = [
+                    "id": userId,
+                    "username": username
+                ]
+                Database.database().reference().child("users").child(userId).setValue(userData)
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController")
+            let navVC = UINavigationController(rootViewController: homeVC)
+            let window = UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }
+            window?.rootViewController = navVC
+        }
     }
     
 

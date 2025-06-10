@@ -25,6 +25,7 @@
 		F8EF636A2DEE453F00182675 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = F8EF63692DEE453F00182675 /* FirebaseDatabase */; };
 		F8EF636C2DEE453F00182675 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = F8EF636B2DEE453F00182675 /* FirebaseMessaging */; };
 		F8EF636E2DEE453F00182675 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F8EF636D2DEE453F00182675 /* FirebaseStorage */; };
+		F8EF63712DF8BCDF00182675 /* Exstention+UIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EF63702DF8BCDF00182675 /* Exstention+UIController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		E13089C72A69FC1700C1889D /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		E13089C92A69FCD300C1889D /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F8EF63642DEE418000182675 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F8EF63702DF8BCDF00182675 /* Exstention+UIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Exstention+UIController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 		E13089A62A69EDB600C1889D /* ChatApp */ = {
 			isa = PBXGroup;
 			children = (
+				F8EF636F2DF8BC8A00182675 /* Exstention */,
 				E13089CB2A69FFEF00C1889D /* Design */,
 				E13089C02A69F00D00C1889D /* Storyboards */,
 				E13089BE2A69EEC500C1889D /* ViewControllers */,
@@ -121,6 +124,14 @@
 				E12D58052A6CAE8F00D556EF /* Extension+UIColor.swift */,
 			);
 			path = Design;
+			sourceTree = "<group>";
+		};
+		F8EF636F2DF8BC8A00182675 /* Exstention */ = {
+			isa = PBXGroup;
+			children = (
+				F8EF63702DF8BCDF00182675 /* Exstention+UIController.swift */,
+			);
+			path = Exstention;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,6 +218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E13089C82A69FC1700C1889D /* CreateAccountViewController.swift in Sources */,
+				F8EF63712DF8BCDF00182675 /* Exstention+UIController.swift in Sources */,
 				E13089C42A69F24800C1889D /* Font.swift in Sources */,
 				E13089A82A69EDB600C1889D /* AppDelegate.swift in Sources */,
 				E13089C62A69FBF400C1889D /* SignInViewController.swift in Sources */,
