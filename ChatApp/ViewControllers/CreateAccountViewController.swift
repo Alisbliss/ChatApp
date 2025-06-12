@@ -104,27 +104,38 @@ class CreateAccountViewController: UIViewController {
             presentErrorAlert(title: "Email required", message: "Please enter a email to continue sign up")
             return
         }
-        Auth.auth().createUser(withEmail: email, password: passward) { result, error in
-            if let error = error {
-                print(error.localizedDescription)
-                self.presentErrorAlert(title: "Create Account Failed", message: "Something went wrong. Please try again later.")
+        
+        Database.database().reference().child("usernames").child(username).observeSingleEvent(of: .value) { snapshot in
+            guard !snapshot.exists() else {
+                self.presentErrorAlert(title: "Username In Use", message: "Please try a different username")
                 return
             }
-            guard let result = result else {
-                self.presentErrorAlert(title: "Create Account Failed", message: "Something went wrong. Please try again later.")
-                return
-            }
-           let userId = result.user.uid
-                let userData: [String: Any] = [
-                    "id": userId,
-                    "username": username
-                ]
+            Auth.auth().createUser(withEmail: email, password: passward) { result, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                    self.presentErrorAlert(title: "Create Account Failed", message: "Something went wrong. Please try again later.")
+                    return
+                }
+                guard let result = result else {
+                    self.presentErrorAlert(title: "Create Account Failed", message: "Something went wrong. Please try again later.")
+                    return
+                }
+               let userId = result.user.uid
+                    let userData: [String: Any] = [
+                        "id": userId,
+                        "username": username
+                    ]
+                    
                 Database.database().reference().child("users").child(userId).setValue(userData)
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController")
-            let navVC = UINavigationController(rootViewController: homeVC)
-            let window = UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }
-            window?.rootViewController = navVC
+                Database.database().reference().child("usernames").child(username).setValue(userData)
+                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController")
+                let navVC = UINavigationController(rootViewController: homeVC)
+                let window = UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }
+                window?.rootViewController = navVC
+            }
+        
+        
         }
     }
     
