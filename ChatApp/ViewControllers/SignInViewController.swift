@@ -34,6 +34,10 @@ class SignInViewController: UIViewController {
         
         let backgroundTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(backgroundTap)
+        showLoadingView()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+            self.removeLoadingView()
+        })
     }
     
     override func viewDidLayoutSubviews() {
