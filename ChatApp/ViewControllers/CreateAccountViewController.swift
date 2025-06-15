@@ -100,65 +100,89 @@ class CreateAccountViewController: UIViewController {
             return
         }
         
-       guard let email = emailTextField.text else {
+        guard let email = emailTextField.text else {
             presentErrorAlert(title: "Email required", message: "Please enter a email to continue sign up")
             return
         }
         
         showLoadingView()
-        Database.database().reference().child("usernames").child(username).observeSingleEvent(of: .value) { snapshot in
-            guard !snapshot.exists() else {
-                self.presentErrorAlert(title: "Username In Use", message: "Please try a different username")
-                self.removeLoadingView()
-                return
-            }
-            
-            Auth.auth().createUser(withEmail: email, password: passward) { result, error in
-                self.removeLoadingView()
-                if let error = error {
-                    print(error.localizedDescription)
-                    var errorMessage = "Something went wrong. Please try again later."
-                    if let authError = AuthErrorCode(rawValue: error._code) {
-                        switch authError {
-                        case .emailAlreadyInUse:
-                            errorMessage = "Email already in use."
-                        case .invalidEmail:
-                            errorMessage = "invalid email."
-                        case .weakPassword:
-                            errorMessage = "Weak password."
-                        default:
-                            break
-                       
-                        }
+        checkIfExists(username: username) { usernameExists in
+            if !usernameExists {
+                self.createUser(username: username, email: email, passward: passward) { result, error in
+                    if let error = error {
+                        self.presentErrorAlert(title: "Create Account Failed", message: error)
                     }
-                    self.presentErrorAlert(title: "Create Account Failed", message: errorMessage)
-                    return
-                }
-                guard let result = result else {
-                    self.presentErrorAlert(title: "Create Account Failed", message: "Something went wrong. Please try again later.")
-                    return
-                }
-               let userId = result.user.uid
+                    guard let result = result else {
+                        self.presentErrorAlert(title: "Create Account Failed", message: "Something went wrong. Please try again later.")
+                        return
+                    }
+                    let userId = result.user.uid
                     let userData: [String: Any] = [
                         "id": userId,
                         "username": username
                     ]
                     
-                Database.database().reference().child("users").child(userId).setValue(userData)
-                Database.database().reference().child("usernames").child(username).setValue(userData)
-                
-                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                changeRequest?.displayName = username
-                changeRequest?.commitChanges()
-                
-                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController")
-                let navVC = UINavigationController(rootViewController: homeVC)
-                let window = UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }
-                window?.rootViewController = navVC
+                    Database.database().reference().child("users").child(userId).setValue(userData)
+                    Database.database().reference().child("usernames").child(username).setValue(userData)
+                    
+                    let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                    changeRequest?.displayName = username
+                    changeRequest?.commitChanges()
+                    
+                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController")
+                    let navVC = UINavigationController(rootViewController: homeVC)
+                    let window = UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }
+                    window?.rootViewController = navVC
+                }
+            } else {
+                self.presentErrorAlert(title: "Username In Use", message: "Please try a different username")
+                self.removeLoadingView()
             }
+        }
         
-        
+    }
+    func checkIfExists(username: String, complitionHandler: @escaping (_ result: Bool) -> Void)  {
+            Database.database().reference().child("usernames").child(username).observeSingleEvent(of: .value) { snapshot in
+                guard !snapshot.exists() else {
+                    
+                    complitionHandler(true)
+                    return
+                }
+                complitionHandler(false)
+                return
+            }
+            
+        }
+    func createUser(username: String, email: String, passward: String, complition: @escaping (_ result: AuthDataResult?, _ error: String?) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: passward) { result, error in
+            self.removeLoadingView()
+            if let error = error {
+                print(error.localizedDescription)
+                var errorMessage = "Something went wrong. Please try again later."
+                if let authError = AuthErrorCode(rawValue: error._code) {
+                    switch authError {
+                    case .emailAlreadyInUse:
+                        errorMessage = "Email already in use."
+                    case .invalidEmail:
+                        errorMessage = "invalid email."
+                    case .weakPassword:
+                        errorMessage = "Weak password."
+                    default:
+                        break
+                        
+                    }
+                }
+                complition(nil, errorMessage)
+                //self.presentErrorAlert(title: "Create Account Failed", message: errorMessage)
+                return
+            }
+            guard let result = result else {
+                complition(nil, "Something went wrong. Please try again later.")
+                //self.presentErrorAlert(title: "Create Account Failed", message: "Something went wrong. Please try again later.")
+                return
+            }
+            complition(result, nil)
         }
     }
     
