@@ -22,6 +22,7 @@
 		E13089CA2A69FCD300C1889D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E13089C92A69FCD300C1889D /* HomeViewController.swift */; };
 		F8D958082DFB196D00485923 /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8D958072DFB196D00485923 /* LoadingView.xib */; };
 		F8D9580A2DFB199D00485923 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D958092DFB199D00485923 /* LoadingView.swift */; };
+		F8EEE3582DFED58400F0560F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8EEE3572DFED58400F0560F /* ProfileViewController.swift */; };
 		F8EF63652DEE418000182675 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F8EF63642DEE418000182675 /* GoogleService-Info.plist */; };
 		F8EF63682DEE453F00182675 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F8EF63672DEE453F00182675 /* FirebaseAuth */; };
 		F8EF636A2DEE453F00182675 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = F8EF63692DEE453F00182675 /* FirebaseDatabase */; };
@@ -48,6 +49,7 @@
 		E13089C92A69FCD300C1889D /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F8D958072DFB196D00485923 /* LoadingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingView.xib; sourceTree = "<group>"; };
 		F8D958092DFB199D00485923 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		F8EEE3572DFED58400F0560F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F8EF63642DEE418000182675 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F8EF63702DF8BCDF00182675 /* Exstention+UIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Exstention+UIController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				E13089C52A69FBF400C1889D /* SignInViewController.swift */,
+				F8EEE3572DFED58400F0560F /* ProfileViewController.swift */,
 				E13089C72A69FC1700C1889D /* CreateAccountViewController.swift */,
 				E13089C92A69FCD300C1889D /* HomeViewController.swift */,
 			);
@@ -238,6 +241,7 @@
 				F8D9580A2DFB199D00485923 /* LoadingView.swift in Sources */,
 				E13089A82A69EDB600C1889D /* AppDelegate.swift in Sources */,
 				E13089C62A69FBF400C1889D /* SignInViewController.swift in Sources */,
+				F8EEE3582DFED58400F0560F /* ProfileViewController.swift in Sources */,
 				E12D57D72A6B3FD600D556EF /* PrimaryButton.swift in Sources */,
 				E13089CA2A69FCD300C1889D /* HomeViewController.swift in Sources */,
 				E13089AA2A69EDB600C1889D /* SceneDelegate.swift in Sources */,
