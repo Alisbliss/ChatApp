@@ -106,14 +106,15 @@ class CreateAccountViewController: UIViewController {
         }
         
         showLoadingView()
-        checkIfExists(username: username) { usernameExists in
+        checkIfExists(username: username) { [ weak self] usernameExists in
+            guard let strongSelf = self else { return }
             if !usernameExists {
-                self.createUser(username: username, email: email, passward: passward) { result, error in
+                strongSelf.createUser(username: username, email: email, passward: passward) { result, error in
                     if let error = error {
-                        self.presentErrorAlert(title: "Create Account Failed", message: error)
+                        strongSelf.presentErrorAlert(title: "Create Account Failed", message: error)
                     }
                     guard let result = result else {
-                        self.presentErrorAlert(title: "Create Account Failed", message: "Something went wrong. Please try again later.")
+                        strongSelf.presentErrorAlert(title: "Create Account Failed", message: "Something went wrong. Please try again later.")
                         return
                     }
                     let userId = result.user.uid
@@ -136,8 +137,8 @@ class CreateAccountViewController: UIViewController {
                     window?.rootViewController = navVC
                 }
             } else {
-                self.presentErrorAlert(title: "Username In Use", message: "Please try a different username")
-                self.removeLoadingView()
+                strongSelf.presentErrorAlert(title: "Username In Use", message: "Please try a different username")
+                strongSelf.removeLoadingView()
             }
         }
         
@@ -155,8 +156,9 @@ class CreateAccountViewController: UIViewController {
             
         }
     func createUser(username: String, email: String, passward: String, complition: @escaping (_ result: AuthDataResult?, _ error: String?) -> Void) {
-        Auth.auth().createUser(withEmail: email, password: passward) { result, error in
-            self.removeLoadingView()
+        Auth.auth().createUser(withEmail: email, password: passward) { [weak self] result, error in
+            guard let strongSelf = self else { return }
+            strongSelf.removeLoadingView()
             if let error = error {
                 print(error.localizedDescription)
                 var errorMessage = "Something went wrong. Please try again later."
