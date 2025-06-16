@@ -158,11 +158,49 @@
                         <outlet property="avatarImageView" destination="9dc-Y1-FL7" id="kYm-tF-knx"/>
                         <outlet property="containerView" destination="Pvk-IP-1ph" id="jHj-je-rbH"/>
                         <outlet property="usernameLabel" destination="ITX-CI-6W9" id="kz4-0w-jq1"/>
+                        <segue destination="U91-PG-L7D" kind="presentation" identifier="UploadSegue" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="qKo-jy-xMY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gjU-Eb-cFg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1977.8625954198471" y="3.5211267605633805"/>
+        </scene>
+        <!--Upload View Controller-->
+        <scene sceneID="bjV-sT-Oud">
+            <objects>
+                <viewController id="U91-PG-L7D" customClass="UploadViewController" customModule="ChatApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Rkc-XV-rZ5">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="UCw-6g-15i">
+                                <rect key="frame" x="25" y="424" width="343" height="4"/>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UploadingAvatar..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1up-dd-DhK">
+                                <rect key="frame" x="127" y="373" width="139" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Gcn-Nz-7J9"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="UCw-6g-15i" firstAttribute="top" secondItem="1up-dd-DhK" secondAttribute="bottom" constant="30" id="Ajq-vg-YB6"/>
+                            <constraint firstItem="UCw-6g-15i" firstAttribute="leading" secondItem="Gcn-Nz-7J9" secondAttribute="leading" constant="25" id="Kr0-Cu-K39"/>
+                            <constraint firstItem="1up-dd-DhK" firstAttribute="centerX" secondItem="Rkc-XV-rZ5" secondAttribute="centerX" id="boz-JG-Evl"/>
+                            <constraint firstItem="UCw-6g-15i" firstAttribute="centerY" secondItem="Rkc-XV-rZ5" secondAttribute="centerY" id="dff-LG-3Yw"/>
+                            <constraint firstItem="Gcn-Nz-7J9" firstAttribute="trailing" secondItem="UCw-6g-15i" secondAttribute="trailing" constant="25" id="rph-8M-i8h"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="progressView" destination="UCw-6g-15i" id="iSh-hB-CHB"/>
+                        <outlet property="uploadAvatarLabel" destination="1up-dd-DhK" id="9qk-iQ-Qi6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tak-BA-lLn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2755" y="4"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4Ps-Qt-YHo">
