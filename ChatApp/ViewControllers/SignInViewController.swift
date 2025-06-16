@@ -87,13 +87,28 @@ class SignInViewController: UIViewController {
             return
         }
         
-       guard let email = emailTextField.text else {
+        guard let email = emailTextField.text else {
             presentErrorAlert(title: "Email required", message: "Please enter a email to continue sign up")
             return
         }
         showLoadingView()
+        signinUser(email: email, passward: passward) { [weak self] success, error in
+            guard let strongSelf = self else { return }
+            if let error = error {
+                print(error)
+                strongSelf.presentErrorAlert(title: "Signin Error", message: error)
+                return
+            }
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController")
+            let navVC = UINavigationController(rootViewController: homeVC)
+            let window = UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }
+            window?.rootViewController = navVC        }
+    }
+
+    func signinUser(email: String, passward: String, complition: @escaping (_ success: Bool, _ error: String?) -> Void) {
         Auth.auth().signIn(withEmail: email, password: passward) { _, error in
-            self.removeLoadingView()
+            //self.removeLoadingView()
             if let error = error {
                 print(error.localizedDescription)
                 var errorMessage = "Something went wrong. Please try again later."
@@ -108,17 +123,15 @@ class SignInViewController: UIViewController {
                    
                     }
                 }
-                self.presentErrorAlert(title: "Create Account Failed", message: errorMessage)
+                complition(false, errorMessage)
+                //self.presentErrorAlert(title: "Create Account Failed", message: errorMessage)
                 return
             }
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let homeVC = mainStoryboard.instantiateViewController(identifier: "HomeViewController")
-            let navVC = UINavigationController(rootViewController: homeVC)
-            let window = UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }
-            window?.rootViewController = navVC
+            complition(true, nil)
+           
         }
+    
     }
-
 }
 extension SignInViewController: UITextViewDelegate {
     
